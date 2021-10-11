@@ -26,27 +26,28 @@
             >
           </li>
           <li class="nav-item">
-            <router-link to="/contact" class="nav-link">CONTACT US</router-link>
+            <div class="sign_up">
+              <router-link to="/signup" class="nav-link">SIGN UP</router-link>
+            </div>
           </li>
           <li class="nav-item">
-            <router-link to="/blog" class="nav-link">BLOG</router-link>
+            <div class="login nav-link">
+              <router-link to="/login">LOGIN</router-link>
+              <img src="../../assets/home/left.png" alt="" width="20" />
+            </div>
           </li>
         </ul>
         <div>en</div>
-        <div class="sign_up">
-          <router-link to="/signup">SIGN UP</router-link>
-          <!-- <button>SIGN UP</button> -->
-        </div>
-        <div class="login">
-          <router-link to="/login">LOGIN</router-link>
-          <img src="../../assets/home/left.png" alt="" width="20" />
-        </div>
+        <!-- <div id="button" class="logout"  style="display:none">
+          <button @click="logout">logout</button>
+        </div> -->
       </div>
     </div>
   </nav>
 </template>
 
 <script>
+// import axios from "axios";
 export default {
   name: "navbar",
   data() {
@@ -54,13 +55,17 @@ export default {
       scrollPosition: null,
     };
   },
+  mounted() {
+    window.addEventListener("scroll", this.updateScroll);
+  },
   methods: {
     updateScroll() {
       this.scrollPosition = window.scrollY;
     },
-  },
-  mounted() {
-    window.addEventListener("scroll", this.updateScroll);
+    // logout() {
+    //   localStorage.clear();
+    //   this.$router.push("/login");
+    // },
   },
 };
 </script>
@@ -74,17 +79,17 @@ export default {
 }
 .sign_up a {
   text-decoration: none;
-  border: 1px solid #133a52;
+  /* border: 1px solid #133a52; */
   background: transparent;
-  color: #5aeaff;
-  padding: 12px 30px;
-  border-radius: 25px;
-  margin: 0 30px 0 30px;
+  color: #a7bdd2;
+  /* padding: 12px 30px; */
+  /* border-radius: 25px; */
+  /* margin: 0 30px 0 30px; */
 }
 .login a {
   text-decoration: none;
   /* background: none; */
-  color: white;
+  color: #a7bdd2;
 }
 .login img {
   margin-top: -3px;

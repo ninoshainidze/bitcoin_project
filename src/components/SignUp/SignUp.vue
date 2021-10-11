@@ -7,51 +7,62 @@
           <div class="signup_form">
             <h1>Sign up</h1>
             <p>Please enter the information below:</p>
-            <div class="form">
-              <div>
-                <label for="">Fist name<span>*</span></label>
-                <input type="text" class="form-control" />
-              </div>
-              <div>
-                <label for="">last name<span>*</span></label>
-                <input type="text" class="form-control" />
-              </div>
-              <div>
-                <label for="">Email<span>*</span></label>
-                <input type="text" class="form-control" />
-              </div>
-              <div>
-                <label for="">Fist name<span>*</span></label>
-                <input type="text" class="form-control" />
-              </div>
-              <div>
-                <label for="">Phone number<span>*</span></label>
-                <input type="text" class="form-control" />
-              </div>
-              <div>
-                <label for="">Password<span>*</span></label>
-                <input type="text" class="form-control" />
-              </div>
-              <div>
-                <label for="">Password confirm<span>*</span></label>
-                <input type="text" class="form-control" />
-              </div>
-              <div class="checkbox d-flex">
-                <input type="checkbox" class="form-control" />
-                <label for=""
-                  >I agree to eclipcoin.com
-                  <span>Terms and Conditions, Privacy Policy</span></label
-                >
-              </div>
-              <div class="checkbox d-flex">
-                <input type="checkbox" class="form-control" />
-                <label for=""
-                  >I agree to receive emails, news and notifications</label
-                >
-              </div>
+            <form @submit.prevent="signup">
+              <div class="form">
+                <div>
+                  <label for="">Full Name<span>*</span></label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="full_name"
+                    name="full_name"
+                  />
+                </div>
+                <div>
+                  <label for="">Email<span>*</span></label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    v-model="email"
+                    name="email"
+                  />
+                </div>
+                <div>
+                  <label for="">Phone number<span>*</span></label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    v-model="phone"
+                    name="phone"
+                  />
+                </div>
+                <div>
+                  <label for="">Password<span>*</span></label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    v-model="password"
+                    name="password"
+                  />
+                </div>
+                <div class="checkbox d-flex">
+                  <input type="checkbox" class="form-control" />
+                  <label for=""
+                    >I agree to eclipcoin.com
+                    <span>Terms and Conditions, Privacy Policy</span></label
+                  >
+                </div>
+                <div class="checkbox d-flex">
+                  <input type="checkbox" class="form-control" />
+                  <label for=""
+                    >I agree to receive emails, news and notifications</label
+                  >
+                </div>
 
-              <button>CREATE AN ACCOUNT</button>
-            </div>
+                <button type="submit">CREATE AN ACCOUNT</button>
+               {{ error }} 
+              </div>
+            </form>
             <p>
               Already registered
               <span><router-link to="/">Login</router-link></span>
@@ -119,11 +130,44 @@
 import Navbar from "../Navbar/Navbar.vue";
 import Footer from "../Footer/Footer.vue";
 
+import axios from "axios";
+
 export default {
-  name: "login",
+  name: "signup",
   components: {
     Navbar,
     Footer,
+  },
+  data() {
+    return {
+      full_name: "",
+      email: "",
+      phone: "",
+      password: "",
+      error:'',
+    };
+  },
+  methods: {
+    signup() {
+      const newUser = {
+        name: this.full_name,
+        email: this.email,
+        phone: this.phone,
+        password: this.password,
+      };
+      axios.post("http://localhost:5000/signup", newUser).then(
+        (res) => {
+          console.log(res);
+          this.error = "";
+          this.$router.push('/login');
+        },
+        (err) => {
+          // console.log("test error");
+          console.log(err.response);
+          this.error = err.response.data.error;
+        }
+      );
+    },
   },
 };
 </script>

@@ -7,16 +7,20 @@
           <div class="login_form">
             <h1>Login</h1>
             <p>Enter your details below:</p>
-            <div class="input mb-3">
-              <p>Email Address*</p>
-              <input type="text" class="form-control mb-3" />
-              <p>password*</p>
-              <input type="text" class="form-control" />
-            </div>
-            <router-link to="/" class="forgot_password"
+            <form action="" @submit.prevent="signup">
+              <div class="input mb-3">
+                <p>Email Address*</p>
+                <input type="text" class="form-control mb-3" v-model="email" />
+                <p>password*</p>
+                <input type="password" class="form-control" v-model="password" />
+              </div>
+              <!-- <router-link to="/" class="forgot_password"
               >Forgot your password?</router-link
-            >
-            <button>Login</button>
+            > -->
+              <button @click="login">Login</button>
+              {{ error }}
+            </form>
+
             <p class="text-center">
               Do not have account?
               <span><router-link to="/signup">Sign up</router-link></span>
@@ -34,6 +38,7 @@
 import Navbar from "../Navbar/Navbar.vue";
 import Footer from "../Footer/Footer.vue";
 
+import axios from "axios";
 
 export default {
   name: "login",
@@ -41,8 +46,35 @@ export default {
     Navbar,
     Footer,
   },
+  data() {
+    return {
+      email: "",
+      password: "",
+      error: "",
+    };
+  },
+  methods: {
+    login() {
+      const user = {
+        email: this.email,
+        password: this.password,
+      };
+      axios.post("http://localhost:5000/login", user).then((res) => {
+        // iff successful
+        if(res.status === 200){
+          console.log(res);
+          localStorage.setItem('token', res.data.token);
+          localStorage.setItem('refreshToken', res.data.refreshToken);
+          this.$router.push('/test');
+        }
+      }, err => {
+        console.log(err.response);
+        this.error = err.response.data.error;
+      });
+    },
+  },
 };
-</script>
+</script> 
 
 <style scoped>
 .login {

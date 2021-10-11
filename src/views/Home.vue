@@ -375,17 +375,6 @@
             is easier than you may think - make your first transaction now!
           </p>
         </div>
-        <div class="reviews">
-          <h3>Reviews</h3>
-          <div class="d-flex">
-            <div class="col-6 pe-3">
-              <img src="../assets/home/review1.png" alt="" />
-            </div>
-            <div class="col-6 pe-3">
-              <img src="../assets/home/review2.png" alt="" />
-            </div>
-          </div>
-        </div>
       </div>
     </div>
     <div class="accord">
@@ -607,6 +596,12 @@ export default {
     Navbar,
     Footer,
   },
+  created(){
+    // user is not autorized
+    if(localStorage.getItem('token') === null){
+      this.$router.push('login');
+    }
+  }
 };
 </script>
 
@@ -946,7 +941,7 @@ export default {
 }
 /* buy crypro */
 .how_it_work {
-  padding: 100px 0 200px 0;
+  padding: 100px 0 0 0;
 }
 .how_it_work h1 {
   color: #02172d;
